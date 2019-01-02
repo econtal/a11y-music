@@ -26,3 +26,8 @@ Will be added later
 ## External referrences and inspiration
 
 * [Creatability by Google](https://experiments.withgoogle.com/collection/creatability)
+
+## Authors
+
+* [Emile Contal](https://github.com/econtal)
+* [Emeline Brulé](https://github.com/e-mln-e)
