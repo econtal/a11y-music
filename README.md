@@ -27,7 +27,8 @@ Will be added later
 
 * [Creatability by Google](https://experiments.withgoogle.com/collection/creatability)
 
-## Authors
+
+## Contributors
 
 * [Emile Contal](https://github.com/econtal)
 * [Emeline Brulé](https://github.com/e-mln-e)

@@ -62,7 +62,7 @@ export class Note extends Component {
   render() {
     const path = getPath(this.props.diameter, this.props.num, this.props.nNotes)
     const id = `keyboard-note-path-${this.props.num}`
-    return (<>
+    return (
       <StyledPath
         id={id}
         d={path}
@@ -71,12 +71,6 @@ export class Note extends Component {
         fill="none"
         onMouseEnter={this.onMouseEnter}
         pointerEvents="all"
-      />
-      <text style={{ fontSize: "10%" }}>
-        <textPath href={`#${id}`} startOffset="30%">{
-          this.props.midi
-        }</textPath>
-      </text>
-    </>)
+      />)
   }
 }

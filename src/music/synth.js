@@ -1,6 +1,6 @@
 import Tone from 'tone'
 import { InstrumentsLibrary } from './Tonejs-instruments.js'
-import { mapObject } from './utils.js'
+import { mapObject } from '../utils.js'
 
 
 const midiToFreq = midi => Math.pow(2, (midi - 69) / 12) * 440
@@ -57,7 +57,7 @@ export class Synth {
 
   reverb = new Tone.JCReverb(0.2).connect(this.masterVolume)
 
-  _synth = new Tone.FMSynth({
+  synth = new Tone.FMSynth({
 		"modulationIndex" : 12.22,
 		"envelope" : {
 			"attack" : 0.01,
@@ -71,14 +71,14 @@ export class Synth {
 			"decay" : 0.01
 		},
     "portamento": "0.1"
-	})//.connect(this.reverb)
+	}).connect(this.reverb)
 
   __synth = InstrumentsLibrary.load({
     instruments: "harp",
     onload: this.onLoad,
   })//.connect(this.reverb)
 
-  synth =  TestDrum.load({
+  _synth =  TestDrum.load({
     onLoad: this.onLoad,
   }).connect(this.reverb)
 
@@ -89,14 +89,11 @@ export class Synth {
 
   triggerRelease = () => this.synth.triggerRelease()
 
-  setOnOff = (isOn) => {
-    if (isOn) {
-      this.synth.triggerAttack('C4', '+0')
-      this.synth.triggerAttack('D4', '+0.25')
-      this.synth.triggerAttack('E4', '+0.50')
-      this.synth.triggerRelease('+1')
-    } else {
-      this.synth.triggerRelease()
-    }
-  }
+  start = () => new Promise(resolve => {
+    this.synth.triggerAttack('C4', '+0')
+    this.synth.triggerAttack('D4', '+0.25')
+    this.synth.triggerAttack('E4', '+0.50')
+    this.synth.triggerRelease('+1')
+    resolve('started') // doesn't wait for anything yet
+  })
 }

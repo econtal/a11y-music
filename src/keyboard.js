@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
 import { Note } from './note.js'
-import { TestDrum } from './synth.js'
+import { TestDrum } from './music/synth.js'
 import { flatten, range } from './utils.js'
 
 
@@ -44,11 +43,13 @@ export class Keyboard extends Component {
     console.log(this.notes)
     return (
       <svg
-        onMouseLeave={this.onMouseLeave}
         width="100%"
         height="100%"
         viewBox={`0 0 ${diameter} ${diameter/2}`}
-      >{
+      >
+        <g
+          onMouseLeave={this.onMouseLeave}
+        >{
           this.notes.map( (note, i) =>
             <Note
               key={i}
@@ -59,7 +60,8 @@ export class Keyboard extends Component {
               {...note}
             />
           )
-      }</svg>
+        }</g>
+      </svg>
     );
   }
 }

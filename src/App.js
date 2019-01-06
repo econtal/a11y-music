@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Keyboard } from './keyboard.js'
-import { Synth } from './synth.js'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HomePage, PlayPage, ModeSelectionPage, ROUTES } from './pages'
+import { Synth } from './music/synth.js'
 import './App.css'
 
 
@@ -20,9 +21,11 @@ class App extends Component {
     this.synth.triggerRelease()
   }
 
-	toggleOnOff = () => {
-		this.setState(({ isOn }) => ({ isOn: !isOn }), () => this.synth.setOnOff(this.state.isOn))
-	}
+	start = () => new Promise(resolve => {
+		this.setState({ isOn: true }, () => {
+			this.synth.start().then(resolve('started'))
+		})
+	})
 
 	onReady = () => {
 		this.setState({ ready: true })
@@ -32,19 +35,30 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Keyboard
-					isDrum={true}
-          base={36}
-          scale={"minorHarmonic"}
-          nScales={2}
-          triggerAttack={this.triggerAttack}
-          triggerRelease={this.triggerRelease}
-        />
-				<button onClick={this.toggleOnOff} disabled={!this.state.ready} >
-					{this.state.isOn ? "Stop" : "Start"}
-				</button>
-      </div>
+			<Router>
+	      <div className="App">
+					<Switch>
+						<Route path={ROUTES.home} exact render={props =>
+								<HomePage
+									ready={this.state.ready}
+									start={this.start}
+								/>
+						} />
+					<Route path={ROUTES.modeSelection} component={ModeSelectionPage} />
+					<Route path={ROUTES.play} render={props =>
+							<PlayPage
+								isDrum={false}
+								base={36}
+								scale={"minorHarmonic"}
+								nScales={2}
+								triggerAttack={this.triggerAttack}
+								triggerRelease={this.triggerRelease}
+								{...props}
+								/>
+						} />
+					</Switch>
+	      </div>
+			</Router>
     )
   }
 }
