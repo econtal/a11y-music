@@ -36,7 +36,7 @@ class App extends Component {
 
 	musicPlayer = new Music({
 		onReady: this.onReady,
-		synthKind: SYNTH_KINDS.INSTRUMENT,
+		synthKind: SYNTH_KINDS.FM_SYNTH,
 	})
 
   render = () => (
@@ -60,6 +60,7 @@ class App extends Component {
 							nScales={2}
 							triggerAttack={this.triggerAttack}
 							triggerRelease={this.triggerRelease}
+							onMouseMove={this.musicPlayer.onMouseMove}
 							{...props}
 							/>
 					} />

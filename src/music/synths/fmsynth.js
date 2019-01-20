@@ -1,8 +1,12 @@
 import Tone from 'tone'
+import { linearScale } from 'utils.js'
 import { BaseSynth } from './base.js'
 
 
 export class FMSynth extends BaseSynth {
+  static MAX_MODULATION = 80
+  static MIN_MODULATION = 10
+
   constructor({ onLoad }) {
     super()
     this.synth = new Tone.FMSynth({
@@ -31,5 +35,10 @@ export class FMSynth extends BaseSynth {
     this.synth.chain(vibrato, distortion, chorus)
     this.outNode = chorus
     onLoad()
+  }
+
+  onMouseMove = (value) => {
+    const modulationIndex = linearScale(value, 0, 1, FMSynth.MIN_MODULATION, FMSynth.MAX_MODULATION)
+    this.synth.modulationIndex.value = modulationIndex
   }
 }

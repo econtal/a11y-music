@@ -37,9 +37,21 @@ export class Keyboard extends Component {
     this.props.triggerRelease()
   }
 
+  onMouseMove = event => {
+    if (!this.props.onMouseMove) return
+    // Compute how far the mouse is from the outside
+    const rect = event.currentTarget.parentElement.getBoundingClientRect()
+    const width = rect.width
+    const height = rect.height
+    const x = 2 * (event.nativeEvent.offsetX / width - 1/2)  // in [-1, 1], 0 is middle
+    const y = 1 - event.nativeEvent.offsetY / height // in [0, 1], 0 is bottom
+    const diag = Math.sqrt(x*x + y*y) // in [0.5, 1]
+    const distance = 2 * (diag - 0.5) // in [0, 1]
+    this.props.onMouseMove(distance)
+  }
+
   render() {
     const diameter = 100 // SVG view box
-    console.log(this.notes)
     return (
       <svg
         width="100%"
@@ -48,6 +60,7 @@ export class Keyboard extends Component {
       >
         <g
           onMouseLeave={this.onMouseLeave}
+          onMouseMove={this.onMouseMove}
         >{
           this.notes.map( (note, i) =>
             <Note

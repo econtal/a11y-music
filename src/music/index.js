@@ -14,7 +14,7 @@ export class Music {
     this.synth = new SYNTH_KIND_TO_CLASS[synthKind]({ onLoad: this.onLoad })
     this.synth.outNode.connect(reverb)
     this.fixedScale = this.synth.fixedScale
-    console.log('fixedScale', this.fixedScale)
+    this.onMouseMove = this.synth.onMouseMove
   }
 
   onLoad = () => {
