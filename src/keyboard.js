@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Note } from './note.js'
-import { TestDrum } from './music/synth.js'
 import { flatten, range } from './utils.js'
 
 
@@ -16,12 +15,12 @@ const SCALES = {
  * @param {int} base - lower note in midi
  * @param {string} scale - scale name from SCALES object
  * @param {int} nScales - number of octaves
- * @param {bool} isDrum - special case for drum (ignore all other params)
+ * @param {list-of-int} fixedScale - pre-defined scale in midi e.g. drums (ignore all other params)
  * @returns {array} - array of notes {midi:int, numInScale:int}
  */
-const computeScale = ({ base, scale, nScales, isDrum }) => (
-  isDrum ?
-  TestDrum.NOTES.map((midi, numInScale) => ({ midi, numInScale }))
+const computeScale = ({ base, scale, nScales, fixedScale }) => (
+  fixedScale ?
+  fixedScale.map((midi, numInScale) => ({ midi, numInScale }))
   : flatten(range(nScales).map(scaleNum =>
     SCALES[scale].map((note, numInScale) => ({ // repeats octaves
       midi: note + base + 12 * scaleNum,

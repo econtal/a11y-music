@@ -24,7 +24,7 @@ export class HomePage extends Component {
         <h1>Hello</h1>
 
         <button onClick={this.start} disabled={!this.props.ready} >
-          Start
+          {this.props.ready ? 'Start' : 'Loading...'}
         </button>
       </>
     )
