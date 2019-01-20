@@ -1,5 +1,5 @@
 import Tone from 'tone'
-import { Drum, FMSynth, Instrument, SYNTH_KINDS } from './synthkinds'
+import { Drum, FMSynth, Instrument, SYNTH_KINDS } from './synths'
 export { SYNTH_KINDS }
 
 
