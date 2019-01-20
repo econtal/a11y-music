@@ -30,7 +30,6 @@ class App extends Component {
 	onReady = () => {
 		/* React anti-pattern, but some synth-kinds will call `onReady` without async,
 		   so technically still in the constructor of `App` */
-    console.log('onReady called')
 		this.state.ready = true
 		this.setState({ ready: true })
 	}
