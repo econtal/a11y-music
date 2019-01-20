@@ -1,7 +1,8 @@
 import Tone from 'tone'
+import { BaseSynth } from './base.js'
 
 
-export class Drum {
+export class Drum extends BaseSynth {
   static BASE_URL = "https://raw.githubusercontent.com/Xangis/DrumPads/master/samples_v2/"
   static SAMPLES = {
     "36": "Kick-Drum-1.wav", // Bass Drum
@@ -25,15 +26,13 @@ export class Drum {
     "54": "Hand-Drum.wav", // Tambourine
     "55": "Crash-Cymbal-3.wav", // Splash Cymbal
   }
-  static FIXED_SCALE = [
+  fixedScale = [
     36, 42, 38, 49, 41, 43, 45, 47, 48,
   ]
 
-  static load = ({ onLoad }) => {
-    return new Tone.Sampler(Drum.SAMPLES, onLoad, Drum.BASE_URL)
-  }
-
-  static onError = (e) => {
-    console.error('error while loading Drum', e)
+  constructor({ onLoad }) {
+    super()
+    this.synth = new Tone.Sampler(Drum.SAMPLES, onLoad, Drum.BASE_URL)
+    this.outNode = this.synth
   }
 }

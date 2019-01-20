@@ -36,7 +36,7 @@ class App extends Component {
 
 	musicPlayer = new Music({
 		onReady: this.onReady,
-		synthKind: SYNTH_KINDS.DRUM,
+		synthKind: SYNTH_KINDS.INSTRUMENT,
 	})
 
   render = () => (

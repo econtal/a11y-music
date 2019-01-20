@@ -1,12 +1,14 @@
 import { InstrumentsLibrary } from '../Tonejs-instruments.js'
+import { BaseSynth } from './base.js'
 
 
-export class Instrument {
-  static load = ({ onLoad }) => {
-    const instrument = InstrumentsLibrary.load({
+export class Instrument extends BaseSynth {
+  constructor({ onLoad }) {
+    super()
+    this.synth = InstrumentsLibrary.load({
       instruments: "harp",
       onload: onLoad,
     })
-    return instrument
+    this.outNode = this.synth
   }
 }

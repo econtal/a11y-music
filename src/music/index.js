@@ -1,19 +1,20 @@
 import Tone from 'tone'
-import { Drum, FMSynth, Instrument, SYNTH_KINDS } from './synths'
-export { SYNTH_KINDS }
+import { SYNTH_KIND_TO_CLASS } from './synths'
+export { SYNTH_KINDS } from './synths'
 
 
 export class Music {
   constructor({ onReady, synthKind }) {
     this.onReady = onReady
     this.synthKind = synthKind
-    const SynthClass = Music.synthKindToClass(synthKind)
-    this.fixedScale = SynthClass.FIXED_SCALE // may be undefined
 
     // chain Tone.js objects
     const masterVolume = new Tone.Volume(-10).toMaster()
     const reverb = new Tone.JCReverb(0.2).connect(masterVolume)
-    this.synth = SynthClass.load({ onLoad: this.onLoad }).connect(reverb)
+    this.synth = new SYNTH_KIND_TO_CLASS[synthKind]({ onLoad: this.onLoad })
+    this.synth.outNode.connect(reverb)
+    this.fixedScale = this.synth.fixedScale
+    console.log('fixedScale', this.fixedScale)
   }
 
   onLoad = () => {
@@ -35,15 +36,6 @@ export class Music {
     this.synth.triggerRelease('+1')
     resolve('started') // doesn't wait for anything yet
   })
-
-  static synthKindToClass = (synthKind) => {
-    switch(synthKind) {
-      case SYNTH_KINDS.FM_SYNTH: return FMSynth
-      case SYNTH_KINDS.DRUM: return Drum
-      case SYNTH_KINDS.INSTRUMENT: return Instrument
-      default: throw `unknown synth kind ${synthKind}`
-    }
-  }
 
   static midiToFreq = midi => Math.pow(2, (midi - 69) / 12) * 440
 }
